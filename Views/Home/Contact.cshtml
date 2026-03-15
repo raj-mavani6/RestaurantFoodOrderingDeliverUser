@@ -1,0 +1,145 @@
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="page-heading">
+                <i class="fas fa-envelope me-2"></i>Contact Us
+            </h2>
+            <p class="text-muted">Get in touch with our support team</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Contact Info -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-headset me-2"></i>Partner Support</h5>
+                </div>
+                <div class="card-body">
+                    <div class="mb-4">
+                        <h6><i class="fas fa-phone text-success me-2"></i>Phone Support</h6>
+                        <p class="mb-1">General Queries: <strong>+91 1800-123-4567</strong> (Toll Free)</p>
+                        <p class="mb-1">Emergency: <strong>+91 9876543210</strong></p>
+                        <p class="text-muted small">Available 24/7</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6><i class="fas fa-envelope text-info me-2"></i>Email Support</h6>
+                        <p class="mb-1">Partner Support: <strong>partner.support@tastybites.com</strong></p>
+                        <p class="mb-1">Earnings Query: <strong>earnings@tastybites.com</strong></p>
+                        <p class="mb-1">Technical Issues: <strong>tech.support@tastybites.com</strong></p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6><i class="fab fa-whatsapp text-success me-2"></i>WhatsApp Support</h6>
+                        <p class="mb-1"><strong>+91 9876543210</strong></p>
+                        <p class="text-muted small">Quick responses during business hours</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h6><i class="fas fa-map-marker-alt text-danger me-2"></i>Office Address</h6>
+                        <p class="mb-0">
+                            Tasty Bites Pvt. Ltd.<br>
+                            123, Food Street, Business Park<br>
+                            Mumbai, Maharashtra - 400001<br>
+                            India
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Contact Form -->
+        <div class="col-md-6 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Send a Message</h5>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3">
+                            <label class="form-label">Subject</label>
+                            <select class="form-select">
+                                <option>Select a topic</option>
+                                <option>Earnings Issue</option>
+                                <option>App Problem</option>
+                                <option>Order Issue</option>
+                                <option>Account Query</option>
+                                <option>Incentive Query</option>
+                                <option>Document Verification</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Message</label>
+                            <textarea class="form-control" rows="5" placeholder="Describe your issue or query..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Attachment (optional)</label>
+                            <input type="file" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">
+                            <i class="fas fa-paper-plane me-2"></i>Submit
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-question-circle me-2"></i>Frequently Asked Questions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    When will I receive my earnings?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Earnings are processed weekly and deposited to your registered bank account every Monday.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    How do I report an issue with an order?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Use the in-app support feature or call our emergency helpline for immediate assistance.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    How can I update my documents?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Go to Profile > Documents and upload updated documents. Verification takes 24-48 hours.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

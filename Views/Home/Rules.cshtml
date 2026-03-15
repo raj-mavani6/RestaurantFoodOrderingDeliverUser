@@ -1,0 +1,331 @@
+@{
+    ViewData["Title"] = "Delivery Partner Rules";
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="page-heading text-center">
+                <i class="fas fa-book me-2"></i>Delivery Partner Rules & Guidelines
+            </h2>
+            <p class="text-center text-muted">Please read and follow all rules carefully. Violation may result in penalties.</p>
+        </div>
+    </div>
+
+    <!-- Important Notice -->
+    <div class="alert alert-warning mb-4">
+        <h5><i class="fas fa-exclamation-triangle me-2"></i>Important Notice</h5>
+        <p class="mb-0">All delivery partners must comply with these rules. Regular violations will lead to account suspension or termination.</p>
+    </div>
+
+    <!-- Search Box -->
+    <div class="row mb-4">
+        <div class="col-md-6 mx-auto">
+            <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input type="text" class="form-control" id="searchRules" placeholder="Search rules...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Rules Categories -->
+    <div class="row" id="rulesContainer">
+        <!-- General Conduct -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-user-check me-2"></i>General Conduct (Rules 1-15)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list">
+                        <li>Always maintain professional behavior with customers and restaurant staff.</li>
+                        <li>Wear clean and presentable clothes while on duty.</li>
+                        <li>Carry your delivery partner ID card at all times.</li>
+                        <li>Do not use abusive or inappropriate language.</li>
+                        <li>Respect customer privacy and do not share their personal information.</li>
+                        <li>Follow traffic rules and road safety guidelines at all times.</li>
+                        <li>Do not consume alcohol or any intoxicating substance during duty hours.</li>
+                        <li>Maintain personal hygiene and cleanliness.</li>
+                        <li>Keep your mobile phone charged and accessible during duty hours.</li>
+                        <li>Report any harassment or misconduct immediately to the support team.</li>
+                        <li>Do not engage in any form of discrimination based on caste, religion, gender, or ethnicity.</li>
+                        <li>Always greet customers politely with a smile.</li>
+                        <li>Do not accept tips directly; tips should be processed through the app only.</li>
+                        <li>Maintain honesty and integrity in all interactions.</li>
+                        <li>Never argue with customers; report issues to the support team.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Attendance Rules -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Attendance Rules (Rules 16-30)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="16">
+                        <li>Check-in on time as per your scheduled shift.</li>
+                        <li>Late arrivals must be reported with a valid reason.</li>
+                        <li>Three consecutive late arrivals will result in a warning.</li>
+                        <li>Unauthorized absence will result in pay deduction.</li>
+                        <li>Apply for leave at least 24 hours in advance.</li>
+                        <li>Emergency leaves must be reported within 2 hours of shift start.</li>
+                        <li>Do not mark attendance from unapproved locations.</li>
+                        <li>Break time should not exceed the allocated duration.</li>
+                        <li>Return from break on time to continue deliveries.</li>
+                        <li>Complete your full shift before checking out.</li>
+                        <li>Overtime hours must be pre-approved by the admin.</li>
+                        <li>Maintain accurate attendance records; falsification will lead to termination.</li>
+                        <li>Inform admin if you need to leave early for any reason.</li>
+                        <li>Weekly minimum working hours must be maintained.</li>
+                        <li>Regular attendance is required to maintain partner status.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order Handling -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0"><i class="fas fa-box me-2"></i>Order Handling Rules (Rules 31-50)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="31">
+                        <li>Accept orders promptly when assigned.</li>
+                        <li>Do not reject orders without valid reasons.</li>
+                        <li>Verify order contents before leaving the restaurant.</li>
+                        <li>Handle food items with care to prevent spillage or damage.</li>
+                        <li>Use insulated bags to maintain food temperature.</li>
+                        <li>Deliver orders within the estimated time frame.</li>
+                        <li>Contact the customer if you are running late.</li>
+                        <li>Do not consume any portion of the customer's order.</li>
+                        <li>If order issues arise, contact support immediately.</li>
+                        <li>Take photos of delivered orders when required.</li>
+                        <li>Confirm delivery with the customer before marking complete.</li>
+                        <li>Handle cash-on-delivery payments carefully.</li>
+                        <li>Return exact change to customers.</li>
+                        <li>Deposit collected cash as per company guidelines.</li>
+                        <li>Report any missing items or wrong orders immediately.</li>
+                        <li>Do not tamper with sealed packages or containers.</li>
+                        <li>Follow special delivery instructions provided by customers.</li>
+                        <li>Maintain proper documentation for all deliveries.</li>
+                        <li>Handle fragile items with extra care.</li>
+                        <li>Report any food quality concerns to the restaurant and support.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehicle & Safety -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-warning text-dark">
+                    <h5 class="mb-0"><i class="fas fa-motorcycle me-2"></i>Vehicle & Safety Rules (Rules 51-70)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="51">
+                        <li>Ensure your vehicle is in good working condition.</li>
+                        <li>Carry valid driving license and vehicle documents.</li>
+                        <li>Wear helmet at all times while riding a two-wheeler.</li>
+                        <li>Follow all traffic signals and signs.</li>
+                        <li>Do not use mobile phone while driving.</li>
+                        <li>Maintain safe speed limits.</li>
+                        <li>Keep your vehicle clean and presentable.</li>
+                        <li>Ensure adequate fuel before starting your shift.</li>
+                        <li>Report any vehicle breakdowns immediately.</li>
+                        <li>Use headlights during night deliveries.</li>
+                        <li>Carry a first-aid kit in your vehicle.</li>
+                        <li>Park only in designated or legal parking areas.</li>
+                        <li>Do not drive under the influence of alcohol or drugs.</li>
+                        <li>Report any accidents immediately to the admin.</li>
+                        <li>Carry valid vehicle insurance documents.</li>
+                        <li>Regular vehicle servicing is mandatory.</li>
+                        <li>Use indicators and mirrors properly while driving.</li>
+                        <li>Maintain safe distance from other vehicles.</li>
+                        <li>Do not engage in racing or reckless driving.</li>
+                        <li>Emergency contact numbers must be kept accessible.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Customer Service -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-headset me-2"></i>Customer Service Rules (Rules 71-85)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="71">
+                        <li>Answer customer calls promptly and politely.</li>
+                        <li>Provide accurate delivery time estimates.</li>
+                        <li>Call customers before arrival for delivery.</li>
+                        <li>Wait for reasonable time at delivery location.</li>
+                        <li>Do not enter customer premises without permission.</li>
+                        <li>Hand over orders directly to the customer or designated person.</li>
+                        <li>Respect contactless delivery preferences.</li>
+                        <li>Follow COVID-19 safety protocols when applicable.</li>
+                        <li>Report undeliverable orders to support team.</li>
+                        <li>Return undelivered orders as per guidelines.</li>
+                        <li>Handle customer complaints professionally.</li>
+                        <li>Do not share personal number with customers.</li>
+                        <li>Use only the app's communication features.</li>
+                        <li>Acknowledge customer feedback gracefully.</li>
+                        <li>Strive for 5-star ratings on every delivery.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment & Earnings -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-wallet me-2"></i>Payment & Earnings Rules (Rules 86-100)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="86">
+                        <li>Earnings will be calculated based on completed deliveries.</li>
+                        <li>Incentives are subject to terms and conditions.</li>
+                        <li>Cash collections must be deposited within 24 hours.</li>
+                        <li>Delayed cash deposits will result in penalties.</li>
+                        <li>Payout schedule is weekly on specified days.</li>
+                        <li>Ensure bank details are accurate for payouts.</li>
+                        <li>Report any earning discrepancies within 48 hours.</li>
+                        <li>Deductions may apply for order cancellations.</li>
+                        <li>Bonus earnings require meeting minimum targets.</li>
+                        <li>Peak hour incentives apply during specified times only.</li>
+                        <li>Referral bonuses are subject to verification.</li>
+                        <li>Tax deductions apply as per government regulations.</li>
+                        <li>Maintain accurate records for tax purposes.</li>
+                        <li>Incentive fraud will result in immediate termination.</li>
+                        <li>Contact support for any payment-related queries.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Usage -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0"><i class="fas fa-mobile-alt me-2"></i>App Usage Rules (Rules 101-115)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="101">
+                        <li>Keep the delivery app updated to the latest version.</li>
+                        <li>Enable location services during duty hours.</li>
+                        <li>Do not share your login credentials with anyone.</li>
+                        <li>Report any app bugs or issues to support.</li>
+                        <li>Enable push notifications for order alerts.</li>
+                        <li>Update order status in real-time.</li>
+                        <li>Do not use VPN or location spoofing.</li>
+                        <li>Allow camera access for document uploads.</li>
+                        <li>Keep internet connectivity stable during shifts.</li>
+                        <li>Log out properly after completing your shift.</li>
+                        <li>Do not manipulate GPS or location data.</li>
+                        <li>Use only the official delivery partner app.</li>
+                        <li>Report suspicious account activity immediately.</li>
+                        <li>Complete all required profile verifications.</li>
+                        <li>Accept terms and conditions updates promptly.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <!-- Penalties & Violations -->
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-gavel me-2"></i>Penalties & Violations (Rules 116-125)</h5>
+                </div>
+                <div class="card-body">
+                    <ol class="rules-list" start="116">
+                        <li>First violation: Written warning issued.</li>
+                        <li>Second violation: Monetary penalty applied.</li>
+                        <li>Third violation: Temporary account suspension.</li>
+                        <li>Severe violations may result in immediate termination.</li>
+                        <li>Theft or fraud will be reported to authorities.</li>
+                        <li>Customer harassment will lead to permanent ban.</li>
+                        <li>Document forgery is a criminal offense.</li>
+                        <li>Appeals must be submitted within 7 days.</li>
+                        <li>Reinstatement is subject to review committee decision.</li>
+                        <li>All decisions by the company are final and binding.</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acknowledgment -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="alert alert-info text-center">
+                <i class="fas fa-info-circle me-2"></i>
+                By continuing to deliver with us, you acknowledge that you have read, understood, and agree to follow all the above rules and guidelines.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .rules-list {
+        padding-left: 25px;
+    }
+    
+    .rules-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .rules-list li:last-child {
+        border-bottom: none;
+    }
+    
+    .card {
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    
+    .card:hover {
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+    
+    .card-header {
+        font-weight: 600;
+    }
+    
+    .highlight {
+        background-color: #fff3cd;
+        padding: 2px 4px;
+        border-radius: 3px;
+    }
+</style>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchRules').addEventListener('keyup', function() {
+            var searchText = this.value.toLowerCase();
+            var rules = document.querySelectorAll('.rules-list li');
+            
+            rules.forEach(function(rule) {
+                var text = rule.textContent.toLowerCase();
+                if (text.includes(searchText)) {
+                    rule.style.display = '';
+                    if (searchText.length > 0) {
+                        rule.classList.add('highlight');
+                    } else {
+                        rule.classList.remove('highlight');
+                    }
+                } else {
+                    rule.style.display = 'none';
+                    rule.classList.remove('highlight');
+                }
+            });
+        });
+    </script>
+}

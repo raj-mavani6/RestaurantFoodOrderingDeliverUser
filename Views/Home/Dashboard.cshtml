@@ -1,0 +1,200 @@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="page-heading">
+                <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+            </h2>
+            <p class="text-muted">Welcome, @ViewBag.DeliveryUserName!</p>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="row mb-4">
+        <!-- Total Deliveries -->
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-primary">
+                    <i class="fas fa-box"></i>
+                </div>
+                <div class="stat-content">
+                    <h6>Total Deliveries</h6>
+                    <h3>@ViewBag.TotalDeliveries</h3>
+                    <small class="text-muted">All Time</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Completed Today -->
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="stat-content">
+                    <h6>Completed Today</h6>
+                    <h3>@ViewBag.CompletedToday</h3>
+                    <small class="text-muted">Today's deliveries</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Orders -->
+        <div class="col-md-4 mb-3">
+            <div class="stat-card">
+                <div class="stat-icon bg-warning">
+                    <i class="fas fa-hourglass-half"></i>
+                </div>
+                <div class="stat-content">
+                    <h6>Pending Orders</h6>
+                    <h3>@ViewBag.PendingOrders</h3>
+                    <small class="text-muted">Awaiting pickup</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Orders Card -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-truck me-2"></i>Active Orders</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Order ID</th>
+                                    <th>Customer</th>
+                                    <th>Address</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var activeOrders = ViewBag.ActiveOrders as List<RestaurantFoodOrderingDeliverUser.Models.DeliveryOrder>;
+                                }
+                                @if (activeOrders != null && activeOrders.Count > 0)
+                                {
+                                    foreach (var order in activeOrders)
+                                    {
+                                        <tr>
+                                            <td><strong>#@order.OrderId</strong></td>
+                                            <td>@(order.CustomerName ?? "N/A")</td>
+                                            <td>@(order.DeliveryAddress ?? "N/A")</td>
+                                            <td class="text-success">₹@order.TotalAmount.ToString("N0")</td>
+                                            <td>
+                                                @if (order.Status == "Assigned")
+                                                {
+                                                    <span class="badge bg-info">Assigned</span>
+                                                }
+                                                else if (order.Status == "Picked Up")
+                                                {
+                                                    <span class="badge bg-warning">Picked Up</span>
+                                                }
+                                                else if (order.Status == "In Transit")
+                                                {
+                                                    <span class="badge bg-primary">In Transit</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-secondary">@order.Status</span>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a href="@Url.Action("DeliveryOrders", "Home")" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center text-muted py-3">
+                                            <i class="fas fa-check-circle me-2"></i>No active orders
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pending Earnings Card -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0"><i class="fas fa-wallet me-2"></i>Pending Earnings</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover table-sm">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Order</th>
+                                    <th>Delivery Fee</th>
+                                    <th>Tip</th>
+                                    <th>Total</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @{
+                                    var pendingEarnings = ViewBag.PendingEarnings as List<RestaurantFoodOrderingDeliverUser.Models.DeliveryEarning>;
+                                }
+                                @if (pendingEarnings != null && pendingEarnings.Count > 0)
+                                {
+                                    foreach (var earning in pendingEarnings)
+                                    {
+                                        var total = earning.DeliveryFee + earning.TipAmount + earning.Bonus + earning.Incentive - earning.Deduction;
+                                        <tr>
+                                            <td><strong>#@earning.EarningId</strong></td>
+                                            <td>#@earning.DeliveryOrderId</td>
+                                            <td class="text-success">₹@earning.DeliveryFee.ToString("N2")</td>
+                                            <td class="text-info">₹@earning.TipAmount.ToString("N2")</td>
+                                            <td><strong class="text-success">₹@total.ToString("N2")</strong></td>
+                                            <td>@earning.EarningDate.ToString("dd MMM")</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="7" class="text-center text-muted py-3">
+                                            <i class="fas fa-check-circle me-2"></i>No pending earnings
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function logout() {
+        if (confirm('Are you sure you want to logout?')) {
+            window.location.href = '@Url.Action("Logout", "Auth")';
+        }
+    }
+</script>

@@ -1,0 +1,410 @@
+@model IEnumerable<RestaurantFoodOrderingDeliverUser.Models.DeliveryOrder>
+
+@{
+    ViewData["Title"] = "Delivery Orders";
+    var activeOrders = Model?.Where(o => o.Status != "Delivered" && o.Status != "Cancelled") ?? Enumerable.Empty<RestaurantFoodOrderingDeliverUser.Models.DeliveryOrder>();
+    var deliveredOrders = Model?.Where(o => o.Status == "Delivered") ?? Enumerable.Empty<RestaurantFoodOrderingDeliverUser.Models.DeliveryOrder>();
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="page-heading">
+                <i class="fas fa-truck me-2"></i>My Deliveries
+            </h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="@Url.Action("Dashboard", "Home")" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Quick Stats -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon text-primary"><i class="fas fa-box"></i></div>
+                <div class="stat-info">
+                    <h3 class="text-dark">@activeOrders.Count()</h3>
+                    <span class="text-dark">Active Orders</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon text-warning"><i class="fas fa-store"></i></div>
+                <div class="stat-info">
+                    <h3 class="text-dark">@activeOrders.Count(o => o.Status == "Ready for Pickup")</h3>
+                    <span class="text-dark">Ready for Pickup</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon text-info"><i class="fas fa-motorcycle"></i></div>
+                <div class="stat-info">
+                    <h3 class="text-dark">@activeOrders.Count(o => o.Status == "Out for Delivery" || o.Status == "Picked Up")</h3>
+                    <span class="text-dark">In Transit</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="stat-card">
+                <div class="stat-icon text-success"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info">
+                    <h3 class="text-dark">@(ViewBag.TodayDeliveries ?? 0)</h3>
+                    <span class="text-dark">Today's Deliveries</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="ordersTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="active-tab" data-bs-toggle="tab" data-bs-target="#activeOrders" type="button">
+                        <i class="fas fa-clock me-1"></i>Active Orders
+                        <span class="badge bg-danger ms-1">@activeOrders.Count()</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="history-tab" data-bs-toggle="tab" data-bs-target="#orderHistory" type="button">
+                        <i class="fas fa-history me-1"></i>Delivered Orders
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="ordersTabContent">
+        <!-- Active Orders Tab -->
+        <div class="tab-pane fade show active" id="activeOrders" role="tabpanel">
+            @if (activeOrders.Any())
+            {
+                <div class="row">
+                    @foreach (var order in activeOrders.OrderBy(o => o.EstimatedDeliveryTime))
+                    {
+                        <div class="col-md-6 mb-4">
+                            <div class="order-card @GetOrderCardClass(order.Status)">
+                                <div class="order-card-header">
+                                    <div class="order-id">
+                                        <strong>Order #@order.DeliveryOrderId</strong>
+                                    </div>
+                                    <div class="order-status">
+                                        @GetStatusBadge(order.Status)
+                                    </div>
+                                </div>
+                                
+                                <div class="order-card-body">
+                                    <!-- Delivery Address -->
+                                    <div class="order-info-item">
+                                        <i class="fas fa-map-marker-alt text-danger"></i>
+                                        <div class="info-content">
+                                            <small class="text-muted">Delivery Address</small>
+                                            <p class="mb-0">@order.DeliveryAddress</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Customer Phone -->
+                                    <div class="order-info-item">
+                                        <i class="fas fa-phone text-success"></i>
+                                        <div class="info-content">
+                                            <small class="text-muted">Customer Phone</small>
+                                            <p class="mb-0">
+                                                <a href="tel:@order.CustomerPhone" class="text-decoration-none">@order.CustomerPhone</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Order Amount -->
+                                    <div class="order-info-item">
+                                        <i class="fas fa-rupee-sign text-primary"></i>
+                                        <div class="info-content">
+                                            <small class="text-muted">Order Amount</small>
+                                            <p class="mb-0 fw-bold">₹@order.TotalAmount.ToString("N2")</p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Payment Info -->
+                                    <div class="order-info-item">
+                                        <i class="fas fa-credit-card text-info"></i>
+                                        <div class="info-content">
+                                            <small class="text-muted">Payment</small>
+                                            <p class="mb-0">
+                                                @order.PaymentMethod 
+                                                @if (order.PaymentStatus == "Paid")
+                                                {
+                                                    <span class="badge bg-success">Paid</span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="badge bg-warning text-dark">Collect Cash</span>
+                                                }
+                                            </p>
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Estimated Time -->
+                                    @if (order.EstimatedDeliveryTime.HasValue)
+                                    {
+                                        <div class="order-info-item">
+                                            <i class="fas fa-clock text-warning"></i>
+                                            <div class="info-content">
+                                                <small class="text-muted">Deliver By</small>
+                                                <p class="mb-0">@order.EstimatedDeliveryTime.Value.ToString("hh:mm tt")</p>
+                                            </div>
+                                        </div>
+                                    }
+                                    
+                                    <!-- Special Instructions -->
+                                    @if (!string.IsNullOrEmpty(order.SpecialInstructions))
+                                    {
+                                        <div class="order-note alert alert-info py-2 mt-2">
+                                            <i class="fas fa-info-circle me-2"></i>
+                                            <small>@order.SpecialInstructions</small>
+                                        </div>
+                                    }
+                                </div>
+                                
+                                <div class="order-card-footer">
+                                    @if (order.Status == "Ready for Pickup")
+                                    {
+                                        <button class="btn btn-warning btn-sm" onclick="updateOrderStatus(@order.DeliveryOrderId, 'pickup')">
+                                            <i class="fas fa-store me-1"></i>Pick Up Order
+                                        </button>
+                                    }
+                                    else if (order.Status == "Picked Up" || order.Status == "Out for Delivery")
+                                    {
+                                        <button class="btn btn-success btn-sm" onclick="updateOrderStatus(@order.DeliveryOrderId, 'delivered')">
+                                            <i class="fas fa-check-circle me-1"></i>Mark as Delivered
+                                        </button>
+                                    }
+                                    <a href="tel:@order.CustomerPhone" class="btn btn-outline-primary btn-sm">
+                                        <i class="fas fa-phone me-1"></i>Call
+                                    </a>
+                                    <button class="btn btn-outline-info btn-sm" onclick="openMaps('@order.DeliveryAddress')">
+                                        <i class="fas fa-directions me-1"></i>Navigate
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-inbox text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3 text-muted">No Active Orders</h5>
+                    <p class="text-muted">You don't have any orders to deliver right now.</p>
+                </div>
+            }
+        </div>
+
+        <!-- Order History Tab -->
+        <div class="tab-pane fade" id="orderHistory" role="tabpanel">
+            @if (deliveredOrders.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Delivery Address</th>
+                                <th>Amount</th>
+                                <th>Payment</th>
+                                <th>Delivered On</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in deliveredOrders.OrderByDescending(o => o.DeliveredTime))
+                            {
+                                <tr>
+                                    <td><strong>#@order.DeliveryOrderId</strong></td>
+                                    <td>@order.DeliveryAddress</td>
+                                    <td class="fw-bold">₹@order.TotalAmount.ToString("N2")</td>
+                                    <td>
+                                        <span class="badge @(order.PaymentMethod == "Online" ? "bg-info" : "bg-secondary")">
+                                            @order.PaymentMethod
+                                        </span>
+                                    </td>
+                                    <td>@(order.DeliveredTime?.ToString("dd MMM yyyy, hh:mm tt") ?? "-")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <i class="fas fa-history text-muted" style="font-size: 3rem;"></i>
+                    <h5 class="mt-3 text-muted">No Delivery History</h5>
+                    <p class="text-muted">Your completed deliveries will appear here.</p>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@functions {
+    string GetOrderCardClass(string? status)
+    {
+        return status switch
+        {
+            "Ready for Pickup" => "border-warning",
+            "Picked Up" => "border-info",
+            "Out for Delivery" => "border-primary",
+            _ => ""
+        };
+    }
+
+    Microsoft.AspNetCore.Html.IHtmlContent GetStatusBadge(string? status)
+    {
+        var (bgClass, icon) = status switch
+        {
+            "Ready for Pickup" => ("bg-warning text-dark", "fas fa-store"),
+            "Picked Up" => ("bg-info", "fas fa-box"),
+            "Out for Delivery" => ("bg-primary", "fas fa-motorcycle"),
+            "Delivered" => ("bg-success", "fas fa-check-circle"),
+            _ => ("bg-secondary", "fas fa-question")
+        };
+        return new Microsoft.AspNetCore.Html.HtmlString($"<span class=\"badge {bgClass}\"><i class=\"{icon} me-1\"></i>{status}</span>");
+    }
+}
+
+<style>
+    .stat-card {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .stat-icon {
+        font-size: 2rem;
+        opacity: 0.8;
+    }
+    
+    .stat-info h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    
+    .stat-info span {
+        font-size: 0.9rem;
+        opacity: 0.9;
+    }
+    
+    .order-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        border-left: 4px solid #dee2e6;
+        overflow: hidden;
+    }
+    
+    .order-card.border-warning { border-left-color: #ffc107; }
+    .order-card.border-info { border-left-color: #0dcaf0; }
+    .order-card.border-primary { border-left-color: #0d6efd; }
+    
+    .order-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .order-card-body {
+        padding: 20px;
+    }
+    
+    .order-info-item {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 12px;
+        align-items: flex-start;
+    }
+    
+    .order-info-item i {
+        font-size: 1.1rem;
+        margin-top: 3px;
+        width: 20px;
+        text-align: center;
+    }
+    
+    .info-content p {
+        font-weight: 500;
+    }
+    
+    .order-card-footer {
+        padding: 15px 20px;
+        background: #f8f9fa;
+        border-top: 1px solid #eee;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .nav-tabs .nav-link {
+        font-weight: 500;
+    }
+    
+    .nav-tabs .nav-link.active {
+        color: var(--primary-color);
+        border-color: var(--primary-color);
+    }
+</style>
+
+<script>
+    function updateOrderStatus(orderId, action) {
+        let url = '';
+        let confirmMsg = '';
+        
+        if (action === 'pickup') {
+            url = '/Home/PickupOrder';
+            confirmMsg = 'Mark this order as Picked Up?';
+        } else if (action === 'delivered') {
+            url = '/Home/DeliverOrder';
+            confirmMsg = 'Mark this order as Delivered?';
+        }
+        
+        if (confirm(confirmMsg)) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ orderId: orderId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    location.reload();
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to update order status');
+            });
+        }
+    }
+    
+    function openMaps(address) {
+        const encodedAddress = encodeURIComponent(address);
+        window.open(`https://www.google.com/maps/search/?api=1&query=${encodedAddress}`, '_blank');
+    }
+</script>

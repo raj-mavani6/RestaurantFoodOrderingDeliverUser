@@ -1,0 +1,202 @@
+@model IEnumerable<RestaurantFoodOrderingDeliverUser.Models.Attendance>
+
+@{
+    ViewData["Title"] = "Attendance";
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h2 class="page-heading">
+                <i class="fas fa-clipboard-list me-2"></i>Attendance Records
+            </h2>
+        </div>
+        <div class="col-md-4 text-end">
+            <a href="@Url.Action("Dashboard", "Home")" class="btn btn-outline-primary btn-sm">
+                <i class="fas fa-arrow-left me-1"></i>Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Check In/Out Section -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-clock me-2"></i>Today's TimeSheet</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Time Display -->
+                    <div class="timesheet-display mb-4">
+                        <div class="current-time">
+                            <span id="currentTime">10:02:18</span>
+                            <span id="ampm">AM</span>
+                        </div>
+                        <div class="day-indicator">
+                            <span class="day-badge">WED</span>
+                        </div>
+                    </div>
+
+                    <!-- Attendance Type Buttons -->
+                    <div class="attendance-buttons mb-4">
+                        <button class="btn btn-attendance btn-in-time" onclick="recordInTime()">
+                            <i class="fas fa-sign-in-alt"></i>
+                            <span>In Time</span>
+                        </button>
+                        <button class="btn btn-attendance btn-intermediate-start" onclick="recordIntermediateStart()">
+                            <i class="fas fa-arrow-up"></i>
+                            <span>Intermediate Start</span>
+                        </button>
+                        <button class="btn btn-attendance btn-intermediate-end" onclick="recordIntermediateEnd()">
+                            <i class="fas fa-arrow-down"></i>
+                            <span>Intermediate End</span>
+                        </button>
+                        <button class="btn btn-attendance btn-out-time" onclick="recordOutTime()">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Out Time</span>
+                        </button>
+                    </div>
+
+                    <!-- Attendance Summary Cards -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="attendance-summary-card">
+                                <div class="summary-icon in-time">
+                                    <i class="fas fa-sign-in-alt"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h6>In Time</h6>
+                                    <h4 id="inTime">09:00 AM</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="attendance-summary-card">
+                                <div class="summary-icon intermediate-start">
+                                    <i class="fas fa-arrow-up"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h6>Break Start</h6>
+                                    <h4 id="breakStart">--:-- --</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="attendance-summary-card">
+                                <div class="summary-icon intermediate-end">
+                                    <i class="fas fa-arrow-down"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h6>Break End</h6>
+                                    <h4 id="breakEnd">--:-- --</h4>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="attendance-summary-card">
+                                <div class="summary-icon out-time">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                </div>
+                                <div class="summary-content">
+                                    <h6>Out Time</h6>
+                                    <h4 id="outTime">--:-- --</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <!-- Attendance Table -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0"><i class="fas fa-list me-2"></i>Attendance History</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Check In</th>
+                                    <th>Intermediate Start</th>
+                                    <th>Intermediate End</th>
+                                    <th>Check Out</th>
+                                    <th>Total Worked Hours</th>
+                                    <th>Break Duration</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var attendance in Model)
+                                {
+                                    <tr>
+                                        <td>@attendance.AttendanceDate.ToString("dd MMM yyyy")</td>
+                                        <td>@(attendance.CheckInTime ?? "--:--")</td>
+                                        <td>@(attendance.IntermediateStartTime ?? "--:--")</td>
+                                        <td>@(attendance.IntermediateEndTime ?? "--:--")</td>
+                                        <td>@(attendance.CheckOutTime ?? "--:--")</td>
+                                        <td class="text-center">@attendance.TotalWorkedHours</td>
+                                        <td class="text-center">@attendance.BreakDuration</td>
+                                        <td>
+                                            @if (attendance.Status == "Present")
+                                            {
+                                                <span class="badge bg-success">@attendance.Status</span>
+                                            }
+                                            else if (attendance.Status == "Late")
+                                            {
+                                                <span class="badge bg-warning">@attendance.Status</span>
+                                            }
+                                            else if (attendance.Status == "Absent")
+                                            {
+                                                <span class="badge bg-danger">@attendance.Status</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-info">@attendance.Status</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Reason Popup Modal -->
+<div id="reasonModal" class="reason-modal-overlay">
+    <div class="reason-modal">
+        <div class="reason-modal-header">
+            <h5><i class="fas fa-exclamation-circle"></i> Reason Required</h5>
+            <button type="button" class="reason-modal-close" onclick="closeReasonPopup()">&times;</button>
+        </div>
+        <div class="reason-modal-body">
+            <p id="reasonMessage" class="reason-modal-message">Please provide a reason:</p>
+            <div class="reason-input-container">
+                <label for="reasonInput">Enter Reason:</label>
+                <textarea id="reasonInput" placeholder="Type your reason here..." rows="4"></textarea>
+            </div>
+        </div>
+        <div class="reason-modal-footer">
+            <button type="button" class="btn-modal-cancel" onclick="closeReasonPopup()">Cancel</button>
+            <button type="button" class="btn-modal-submit" onclick="submitReason()">
+                <i class="fas fa-check me-1"></i> Submit
+            </button>
+        </div>
+    </div>
+</div>
+

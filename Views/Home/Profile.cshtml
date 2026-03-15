@@ -1,0 +1,1067 @@
+@model RestaurantFoodOrderingDeliverUser.Models.DeliveryUser
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="page-heading">
+                <i class="fas fa-user-circle me-2"></i>My Profile
+            </h2>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Left Sidebar Navigation -->
+        <div class="col-md-3 mb-4">
+            <div class="profile-sidebar">
+                <div class="profile-sidebar-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-circle"></i>
+                    </div>
+                    <h5>@Model.FullName</h5>
+                    <span class="badge bg-success">@Model.Status</span>
+                </div>
+                <nav class="profile-nav">
+                    <a href="#profile-overview" class="profile-nav-link active" data-section="profile-overview">
+                        <i class="fas fa-user"></i>
+                        <span>Profile Overview</span>
+                    </a>
+                    <a href="#personal-info" class="profile-nav-link" data-section="personal-info">
+                        <i class="fas fa-id-card"></i>
+                        <span>Personal Information</span>
+                    </a>
+                    <a href="#medical-info" class="profile-nav-link" data-section="medical-info">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Medical Information</span>
+                    </a>
+                    <a href="#vehicle-info" class="profile-nav-link" data-section="vehicle-info">
+                        <i class="fas fa-motorcycle"></i>
+                        <span>Vehicle Information</span>
+                    </a>
+                    <a href="#documents" class="profile-nav-link" data-section="documents">
+                        <i class="fas fa-file-alt"></i>
+                        <span>Documents</span>
+                    </a>
+                    <a href="#bank-info" class="profile-nav-link" data-section="bank-info">
+                        <i class="fas fa-university"></i>
+                        <span>Bank Details</span>
+                    </a>
+                    <a href="#emergency-contact" class="profile-nav-link" data-section="emergency-contact">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Emergency Contact</span>
+                    </a>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Right Content Area -->
+        <div class="col-md-9">
+            <!-- Profile Overview Section -->
+            <div id="profile-overview" class="profile-section active">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-user text-primary me-2"></i>Profile Overview</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('profile-overview')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Full Name</label>
+                                        <p>@Model.FullName</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Email</label>
+                                        <p>@Model.Email</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Phone</label>
+                                        <p>@Model.Phone</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Joined Date</label>
+                                        <p>@Model.JoinDate.ToString("MMMM yyyy")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="stats-grid">
+                                        <div class="stat-box">
+                                            <h3 class="text-primary">@Model.TotalDeliveries</h3>
+                                            <small>Total Deliveries</small>
+                                        </div>
+                                        <div class="stat-box">
+                                            <h3 class="text-warning">@Model.Status</h3>
+                                            <small>Status</small>
+                                        </div>
+                                        <div class="stat-box">
+                                            <h3 class="text-success">₹@Model.TotalEarnings.ToString("N0")</h3>
+                                            <small>Earnings</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="profile-overview-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Full Name</label>
+                                            <input type="text" class="form-control" name="FullName" value="@Model.FullName" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Email</label>
+                                            <input type="email" class="form-control" name="Email" value="@Model.Email" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone</label>
+                                            <input type="text" class="form-control" name="Phone" value="@Model.Phone" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('profile-overview')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('profile-overview')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Information Section -->
+            <div id="personal-info" class="profile-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-id-card text-info me-2"></i>Personal Information</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('personal-info')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Full Name</label>
+                                        <p>@Model.FullName</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Date of Birth</label>
+                                        <p>@(Model.DateOfBirth?.ToString("dd MMMM yyyy") ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Gender</label>
+                                        <p>@(Model.Gender ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Father's Name</label>
+                                        <p>@(Model.FatherName ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Aadhar Number</label>
+                                        <p>@(Model.AadharNumber ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>PAN Number</label>
+                                        <p>@(Model.PANNumber ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Permanent Address</label>
+                                        <p>@(Model.PermanentAddress ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Current Address</label>
+                                        <p>@(Model.CurrentAddress ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="personal-info-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Date of Birth</label>
+                                            <input type="date" class="form-control" name="DateOfBirth" value="@(Model.DateOfBirth?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Gender</label>
+                                            <select class="form-select" name="Gender">
+                                                <option value="">Select Gender</option>
+                                                @if (Model.Gender == "Male") { <option value="Male" selected>Male</option> } else { <option value="Male">Male</option> }
+                                                @if (Model.Gender == "Female") { <option value="Female" selected>Female</option> } else { <option value="Female">Female</option> }
+                                                @if (Model.Gender == "Other") { <option value="Other" selected>Other</option> } else { <option value="Other">Other</option> }
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Father's Name</label>
+                                            <input type="text" class="form-control" name="FatherName" value="@Model.FatherName" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Aadhar Number</label>
+                                            <input type="text" class="form-control" name="AadharNumber" value="@Model.AadharNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">PAN Number</label>
+                                            <input type="text" class="form-control" name="PANNumber" value="@Model.PANNumber" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Permanent Address</label>
+                                            <textarea class="form-control" name="PermanentAddress" rows="2">@Model.PermanentAddress</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Current Address</label>
+                                            <textarea class="form-control" name="CurrentAddress" rows="2">@Model.CurrentAddress</textarea>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">City</label>
+                                                    <input type="text" class="form-control" name="City" value="@Model.City" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">State</label>
+                                                    <input type="text" class="form-control" name="State" value="@Model.State" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="mb-3">
+                                                    <label class="form-label">Pincode</label>
+                                                    <input type="text" class="form-control" name="Pincode" value="@Model.Pincode" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('personal-info')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('personal-info')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Medical Information Section -->
+            <div id="medical-info" class="profile-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-heartbeat text-danger me-2"></i>Medical Information</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('medical-info')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Blood Group</label>
+                                        <p><span class="badge bg-danger">@(Model.BloodGroup ?? "Not specified")</span></p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Height</label>
+                                        <p>@(Model.Height ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Weight</label>
+                                        <p>@(Model.Weight ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Vision</label>
+                                        <p>@(Model.Vision ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Known Allergies</label>
+                                        <p>@(Model.KnownAllergies ?? "None")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Chronic Conditions</label>
+                                        <p>@(Model.ChronicConditions ?? "None")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Last Health Checkup</label>
+                                        <p>@(Model.LastHealthCheckup?.ToString("dd MMMM yyyy") ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Medical Insurance Expiry</label>
+                                        <p>@(Model.MedicalInsuranceExpiry?.ToString("dd MMM yyyy") ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="medical-info-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Blood Group</label>
+                                            <select class="form-select" name="BloodGroup">
+                                                <option value="">Select Blood Group</option>
+                                                @foreach (var bg in new[] { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" })
+                                                {
+                                                    if (Model.BloodGroup == bg) { <option value="@bg" selected>@bg</option> } else { <option value="@bg">@bg</option> }
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Height</label>
+                                            <input type="text" class="form-control" name="Height" value="@Model.Height" placeholder="e.g., 175 cm" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Weight</label>
+                                            <input type="text" class="form-control" name="Weight" value="@Model.Weight" placeholder="e.g., 72 kg" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Vision</label>
+                                            <input type="text" class="form-control" name="Vision" value="@Model.Vision" placeholder="e.g., Normal (6/6)" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Known Allergies</label>
+                                            <textarea class="form-control" name="KnownAllergies" rows="2">@Model.KnownAllergies</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Chronic Conditions</label>
+                                            <textarea class="form-control" name="ChronicConditions" rows="2">@Model.ChronicConditions</textarea>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Last Health Checkup</label>
+                                            <input type="date" class="form-control" name="LastHealthCheckup" value="@(Model.LastHealthCheckup?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Medical Insurance Expiry</label>
+                                            <input type="date" class="form-control" name="MedicalInsuranceExpiry" value="@(Model.MedicalInsuranceExpiry?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('medical-info')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('medical-info')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vehicle Information Section -->
+            <div id="vehicle-info" class="profile-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-motorcycle text-warning me-2"></i>Vehicle Information</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('vehicle-info')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Vehicle Type</label>
+                                        <p>@(Model.VehicleType ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Vehicle Model</label>
+                                        <p>@(Model.VehicleModel ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Registration Number</label>
+                                        <p>@(Model.VehicleNumber ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Vehicle Color</label>
+                                        <p>@(Model.VehicleColor ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Insurance Valid Till</label>
+                                        <p>@(Model.VehicleInsuranceExpiry?.ToString("dd MMM yyyy") ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>PUC Valid Till</label>
+                                        <p>@(Model.PUCExpiry?.ToString("dd MMM yyyy") ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Fitness Certificate Expiry</label>
+                                        <p>@(Model.FitnessCertificateExpiry?.ToString("dd MMM yyyy") ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Manufacturing Year</label>
+                                        <p>@(Model.VehicleManufacturingYear?.ToString() ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="vehicle-info-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Vehicle Type</label>
+                                            <select class="form-select" name="VehicleType">
+                                                <option value="">Select Type</option>
+                                                @if (Model.VehicleType == "Motorcycle") { <option value="Motorcycle" selected>Motorcycle</option> } else { <option value="Motorcycle">Motorcycle</option> }
+                                                @if (Model.VehicleType == "Scooter") { <option value="Scooter" selected>Scooter</option> } else { <option value="Scooter">Scooter</option> }
+                                                @if (Model.VehicleType == "Bicycle") { <option value="Bicycle" selected>Bicycle</option> } else { <option value="Bicycle">Bicycle</option> }
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Vehicle Model</label>
+                                            <input type="text" class="form-control" name="VehicleModel" value="@Model.VehicleModel" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Registration Number</label>
+                                            <input type="text" class="form-control" name="VehicleNumber" value="@Model.VehicleNumber" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Vehicle Color</label>
+                                            <input type="text" class="form-control" name="VehicleColor" value="@Model.VehicleColor" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Manufacturing Year</label>
+                                            <input type="number" class="form-control" name="VehicleManufacturingYear" value="@Model.VehicleManufacturingYear" min="2000" max="2025" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Insurance Expiry</label>
+                                            <input type="date" class="form-control" name="VehicleInsuranceExpiry" value="@(Model.VehicleInsuranceExpiry?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">PUC Expiry</label>
+                                            <input type="date" class="form-control" name="PUCExpiry" value="@(Model.PUCExpiry?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Fitness Certificate Expiry</label>
+                                            <input type="date" class="form-control" name="FitnessCertificateExpiry" value="@(Model.FitnessCertificateExpiry?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('vehicle-info')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('vehicle-info')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Documents Section -->
+            <div id="documents" class="profile-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-file-alt text-success me-2"></i>Documents</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('documents')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="document-item">
+                                        <i class="fas fa-id-card text-primary"></i>
+                                        <div class="doc-info">
+                                            <h6>Driving License</h6>
+                                            <small>@(Model.DrivingLicenseNumber ?? "Not uploaded")</small>
+                                            @if (Model.DrivingLicenseVerified) { <span class="badge bg-success">Verified</span> } else { <span class="badge bg-warning">Pending</span> }
+                                        </div>
+                                    </div>
+                                    <div class="document-item">
+                                        <i class="fas fa-id-badge text-info"></i>
+                                        <div class="doc-info">
+                                            <h6>Aadhar Card</h6>
+                                            <small>@(Model.AadharNumber ?? "Not uploaded")</small>
+                                            @if (Model.AadharVerified) { <span class="badge bg-success">Verified</span> } else { <span class="badge bg-warning">Pending</span> }
+                                        </div>
+                                    </div>
+                                    <div class="document-item">
+                                        <i class="fas fa-file-invoice text-warning"></i>
+                                        <div class="doc-info">
+                                            <h6>PAN Card</h6>
+                                            <small>@(Model.PANNumber ?? "Not uploaded")</small>
+                                            @if (Model.PANVerified) { <span class="badge bg-success">Verified</span> } else { <span class="badge bg-warning">Pending</span> }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="document-item">
+                                        <i class="fas fa-car text-danger"></i>
+                                        <div class="doc-info">
+                                            <h6>Vehicle RC</h6>
+                                            <small>@(Model.VehicleNumber ?? "Not uploaded")</small>
+                                            @if (Model.VehicleRCVerified) { <span class="badge bg-success">Verified</span> } else { <span class="badge bg-warning">Pending</span> }
+                                        </div>
+                                    </div>
+                                    <div class="document-item">
+                                        <i class="fas fa-shield-alt text-success"></i>
+                                        <div class="doc-info">
+                                            <h6>Vehicle Insurance</h6>
+                                            <small>@(Model.VehicleInsuranceNumber ?? "Not uploaded")</small>
+                                            @if (Model.VehicleInsuranceVerified) { <span class="badge bg-success">Active</span> } else { <span class="badge bg-warning">Pending</span> }
+                                        </div>
+                                    </div>
+                                    <div class="document-item">
+                                        <i class="fas fa-file-medical text-info"></i>
+                                        <div class="doc-info">
+                                            <h6>Medical Certificate</h6>
+                                            <small>@(Model.MedicalInsuranceNumber ?? "Not uploaded")</small>
+                                            @if (Model.MedicalCertificateVerified) { <span class="badge bg-success">Valid</span> } else { <span class="badge bg-warning">Pending</span> }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="documents-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Driving License Number</label>
+                                            <input type="text" class="form-control" name="DrivingLicenseNumber" value="@Model.DrivingLicenseNumber" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Driving License Expiry</label>
+                                            <input type="date" class="form-control" name="DrivingLicenseExpiry" value="@(Model.DrivingLicenseExpiry?.ToString("yyyy-MM-dd"))" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Vehicle Insurance Number</label>
+                                            <input type="text" class="form-control" name="VehicleInsuranceNumber" value="@Model.VehicleInsuranceNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">PUC Number</label>
+                                            <input type="text" class="form-control" name="PUCNumber" value="@Model.PUCNumber" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Medical Insurance Number</label>
+                                            <input type="text" class="form-control" name="MedicalInsuranceNumber" value="@Model.MedicalInsuranceNumber" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('documents')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('documents')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bank Details Section -->
+            <div id="bank-info" class="profile-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-university text-primary me-2"></i>Bank Details</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('bank-info')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Account Holder Name</label>
+                                        <p>@(Model.BankAccountHolderName ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Bank Name</label>
+                                        <p>@(Model.BankName ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Account Number</label>
+                                        <p>@(Model.BankAccountNumber ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>IFSC Code</label>
+                                        <p>@(Model.BankIFSCCode ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Branch</label>
+                                        <p>@(Model.BankBranch ?? "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>UPI ID</label>
+                                        <p>@(Model.UPIID ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="bank-info-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Account Holder Name</label>
+                                            <input type="text" class="form-control" name="BankAccountHolderName" value="@Model.BankAccountHolderName" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Bank Name</label>
+                                            <input type="text" class="form-control" name="BankName" value="@Model.BankName" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Account Number</label>
+                                            <input type="text" class="form-control" name="BankAccountNumber" value="@Model.BankAccountNumber" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">IFSC Code</label>
+                                            <input type="text" class="form-control" name="BankIFSCCode" value="@Model.BankIFSCCode" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Branch</label>
+                                            <input type="text" class="form-control" name="BankBranch" value="@Model.BankBranch" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">UPI ID</label>
+                                            <input type="text" class="form-control" name="UPIID" value="@Model.UPIID" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('bank-info')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('bank-info')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Contact Section -->
+            <div id="emergency-contact" class="profile-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h4><i class="fas fa-phone-alt text-danger me-2"></i>Emergency Contact</h4>
+                        <button class="btn btn-outline-primary btn-sm edit-btn" onclick="toggleEdit('emergency-contact')">
+                            <i class="fas fa-edit me-1"></i>Edit
+                        </button>
+                    </div>
+                    <div class="section-body">
+                        <!-- View Mode -->
+                        <div class="view-mode">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Contact Person</label>
+                                        <p>@(Model.EmergencyContactName ?? "Not specified") @(Model.EmergencyContactRelation != null ? $"({Model.EmergencyContactRelation})" : "")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Contact Number</label>
+                                        <p>@(Model.EmergencyContactPhone != null ? $"+91 {Model.EmergencyContactPhone}" : "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Relationship</label>
+                                        <p>@(Model.EmergencyContactRelation ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-group">
+                                        <label>Secondary Contact</label>
+                                        <p>@(Model.SecondaryContactName ?? "Not specified") @(Model.SecondaryContactRelation != null ? $"({Model.SecondaryContactRelation})" : "")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Secondary Number</label>
+                                        <p>@(Model.SecondaryContactPhone != null ? $"+91 {Model.SecondaryContactPhone}" : "Not specified")</p>
+                                    </div>
+                                    <div class="info-group">
+                                        <label>Emergency Address</label>
+                                        <p>@(Model.EmergencyAddress ?? "Not specified")</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Edit Mode -->
+                        <div class="edit-mode" style="display: none;">
+                            <form id="emergency-contact-form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Emergency Contact Name</label>
+                                            <input type="text" class="form-control" name="EmergencyContactName" value="@Model.EmergencyContactName" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Emergency Contact Phone</label>
+                                            <input type="text" class="form-control" name="EmergencyContactPhone" value="@Model.EmergencyContactPhone" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Relationship</label>
+                                            <select class="form-select" name="EmergencyContactRelation">
+                                                <option value="">Select Relationship</option>
+                                                @foreach (var rel in new[] { "Father", "Mother", "Brother", "Sister", "Spouse", "Friend", "Other" })
+                                                {
+                                                    if (Model.EmergencyContactRelation == rel) { <option value="@rel" selected>@rel</option> } else { <option value="@rel">@rel</option> }
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Secondary Contact Name</label>
+                                            <input type="text" class="form-control" name="SecondaryContactName" value="@Model.SecondaryContactName" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Secondary Contact Phone</label>
+                                            <input type="text" class="form-control" name="SecondaryContactPhone" value="@Model.SecondaryContactPhone" />
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Relationship</label>
+                                            <select class="form-select" name="SecondaryContactRelation">
+                                                <option value="">Select Relationship</option>
+                                                @foreach (var rel in new[] { "Father", "Mother", "Brother", "Sister", "Spouse", "Friend", "Other" })
+                                                {
+                                                    if (Model.SecondaryContactRelation == rel) { <option value="@rel" selected>@rel</option> } else { <option value="@rel">@rel</option> }
+                                                }
+                                            </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Emergency Address</label>
+                                            <textarea class="form-control" name="EmergencyAddress" rows="2">@Model.EmergencyAddress</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-3">
+                                    <button type="button" class="btn btn-primary" onclick="saveProfile('emergency-contact')">
+                                        <i class="fas fa-save me-1"></i>Save Changes
+                                    </button>
+                                    <button type="button" class="btn btn-secondary" onclick="cancelEdit('emergency-contact')">
+                                        <i class="fas fa-times me-1"></i>Cancel
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-sidebar {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+        position: sticky;
+        top: 100px;
+    }
+    
+    .profile-sidebar-header {
+        background: linear-gradient(135deg, var(--primary-color, #007bff) 0%, #0056b3 100%);
+        color: white;
+        padding: 25px;
+        text-align: center;
+    }
+    
+    .profile-avatar {
+        font-size: 4rem;
+        margin-bottom: 10px;
+    }
+    
+    .profile-sidebar-header h5 {
+        margin-bottom: 10px;
+    }
+    
+    .profile-nav {
+        padding: 10px 0;
+    }
+    
+    .profile-nav-link {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 20px;
+        color: #333;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border-left: 3px solid transparent;
+    }
+    
+    .profile-nav-link:hover {
+        background: #f8f9fa;
+        color: var(--primary-color, #007bff);
+        border-left-color: var(--primary-color, #007bff);
+    }
+    
+    .profile-nav-link.active {
+        background: #e3f2fd;
+        color: var(--primary-color, #007bff);
+        border-left-color: var(--primary-color, #007bff);
+        font-weight: 500;
+    }
+    
+    .profile-nav-link i {
+        width: 20px;
+        text-align: center;
+    }
+    
+    .profile-section {
+        display: none;
+    }
+    
+    .profile-section.active {
+        display: block;
+    }
+    
+    .section-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .section-header {
+        padding: 20px 25px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    
+    .section-header h4 {
+        margin: 0;
+        font-size: 1.25rem;
+    }
+    
+    .section-body {
+        padding: 25px;
+    }
+    
+    .info-group {
+        margin-bottom: 20px;
+    }
+    
+    .info-group label {
+        color: #666;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .info-group p {
+        margin: 0;
+        font-weight: 500;
+        color: #333;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    
+    .stat-box {
+        background: #f8f9fa;
+        border-radius: 10px;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    .stat-box h3 {
+        margin-bottom: 5px;
+        font-weight: 700;
+    }
+    
+    .stat-box small {
+        color: #666;
+    }
+    
+    .document-item {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .document-item i {
+        font-size: 2rem;
+    }
+    
+    .doc-info h6 {
+        margin-bottom: 3px;
+    }
+    
+    .doc-info small {
+        color: #666;
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .edit-btn {
+        border-radius: 20px;
+    }
+    
+    .edit-mode {
+        background: #f8f9fa;
+        padding: 20px;
+        border-radius: 10px;
+    }
+</style>
+
+<script>
+    // Section navigation
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.profile-nav-link');
+        const sections = document.querySelectorAll('.profile-section');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                navLinks.forEach(l => l.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                this.classList.add('active');
+                const sectionId = this.getAttribute('data-section');
+                document.getElementById(sectionId).classList.add('active');
+            });
+        });
+    });
+    
+    // Toggle edit mode
+    function toggleEdit(sectionId) {
+        const section = document.getElementById(sectionId);
+        const viewMode = section.querySelector('.view-mode');
+        const editMode = section.querySelector('.edit-mode');
+        const editBtn = section.querySelector('.edit-btn');
+        
+        if (editMode.style.display === 'none') {
+            viewMode.style.display = 'none';
+            editMode.style.display = 'block';
+            editBtn.innerHTML = '<i class="fas fa-times me-1"></i>Cancel';
+            editBtn.classList.remove('btn-outline-primary');
+            editBtn.classList.add('btn-outline-danger');
+        } else {
+            viewMode.style.display = 'block';
+            editMode.style.display = 'none';
+            editBtn.innerHTML = '<i class="fas fa-edit me-1"></i>Edit';
+            editBtn.classList.remove('btn-outline-danger');
+            editBtn.classList.add('btn-outline-primary');
+        }
+    }
+    
+    // Cancel edit
+    function cancelEdit(sectionId) {
+        const section = document.getElementById(sectionId);
+        const viewMode = section.querySelector('.view-mode');
+        const editMode = section.querySelector('.edit-mode');
+        const editBtn = section.querySelector('.edit-btn');
+        
+        viewMode.style.display = 'block';
+        editMode.style.display = 'none';
+        editBtn.innerHTML = '<i class="fas fa-edit me-1"></i>Edit';
+        editBtn.classList.remove('btn-outline-danger');
+        editBtn.classList.add('btn-outline-primary');
+    }
+    
+    // Save profile data
+    function saveProfile(sectionId) {
+        const section = document.getElementById(sectionId);
+        const form = section.querySelector('form');
+        const formData = new FormData(form);
+        const data = {};
+        
+        formData.forEach((value, key) => {
+            data[key] = value;
+        });
+        
+        // Show loading
+        const saveBtn = form.querySelector('.btn-primary');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin me-1"></i>Saving...';
+        saveBtn.disabled = true;
+        
+        fetch('/Home/UpdateProfile', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(result => {
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+            
+            if (result.success) {
+                alert('Profile updated successfully!');
+                location.reload(); // Refresh to show updated data
+            } else {
+                alert('Error: ' + result.message);
+            }
+        })
+        .catch(error => {
+            saveBtn.innerHTML = originalText;
+            saveBtn.disabled = false;
+            console.error('Error:', error);
+            alert('Failed to update profile. Please try again.');
+        });
+    }
+</script>

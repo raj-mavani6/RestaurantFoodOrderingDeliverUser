@@ -1,0 +1,320 @@
+@model IEnumerable<RestaurantFoodOrderingDeliverUser.Models.DeliveryEarning>
+
+@{
+    ViewData["Title"] = "My Earnings";
+}
+
+<div class="container-fluid py-4">
+    <!-- Page Header -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <h2 class="page-heading">
+                <i class="fas fa-wallet me-2"></i>My Earnings
+            </h2>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="earnings-card total">
+                <div class="card-icon">
+                    <i class="fas fa-rupee-sign"></i>
+                </div>
+                <div class="card-content">
+                    <h3>₹@ViewBag.MonthlyTotal.ToString("N0")</h3>
+                    <small>@ViewBag.MonthName Earnings</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="earnings-card lifetime">
+                <div class="card-icon">
+                    <i class="fas fa-piggy-bank"></i>
+                </div>
+                <div class="card-content">
+                    <h3>₹@ViewBag.TotalEarnings.ToString("N0")</h3>
+                    <small>Total Earnings</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="earnings-card pending">
+                <div class="card-icon">
+                    <i class="fas fa-clock"></i>
+                </div>
+                <div class="card-content">
+                    <h3>₹@ViewBag.PendingAmount.ToString("N0")</h3>
+                    <small>Pending Amount</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="earnings-card tips">
+                <div class="card-icon">
+                    <i class="fas fa-hand-holding-usd"></i>
+                </div>
+                <div class="card-content">
+                    <h3>₹@ViewBag.Tips.ToString("N0")</h3>
+                    <small>Tips This Month</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Breakdown & Month Selector -->
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="breakdown-card">
+                <h5><i class="fas fa-chart-pie me-2"></i>Earnings Breakdown - @ViewBag.MonthName</h5>
+                <div class="breakdown-grid">
+                    <div class="breakdown-item">
+                        <span class="label">Delivery Fees</span>
+                        <span class="amount text-primary">₹@ViewBag.DeliveryFees.ToString("N0")</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="label">Tips</span>
+                        <span class="amount text-success">₹@ViewBag.Tips.ToString("N0")</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="label">Bonuses</span>
+                        <span class="amount text-warning">₹@ViewBag.Bonuses.ToString("N0")</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="label">Incentives</span>
+                        <span class="amount text-info">₹@ViewBag.Incentives.ToString("N0")</span>
+                    </div>
+                    <div class="breakdown-item">
+                        <span class="label">Deductions</span>
+                        <span class="amount text-danger">-₹@ViewBag.Deductions.ToString("N0")</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="month-selector-card">
+                <h5><i class="fas fa-calendar me-2"></i>Select Month</h5>
+                <form method="get" action="@Url.Action("Earnings", "Home")">
+                    <div class="row">
+                        <div class="col-6">
+                            <select name="month" class="form-select">
+                                @for (int m = 1; m <= 12; m++)
+                                {
+                                    var monthName = new DateTime(2025, m, 1).ToString("MMMM");
+                                    if (m == ViewBag.CurrentMonth)
+                                    {
+                                        <option value="@m" selected>@monthName</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@m">@monthName</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <select name="year" class="form-select">
+                                @for (int y = 2024; y <= 2026; y++)
+                                {
+                                    if (y == ViewBag.CurrentYear)
+                                    {
+                                        <option value="@y" selected>@y</option>
+                                    }
+                                    else
+                                    {
+                                        <option value="@y">@y</option>
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100 mt-3">
+                        <i class="fas fa-search me-1"></i>View Earnings
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Earnings History Table -->
+    <div class="row">
+        <div class="col-md-12">
+            <div class="earnings-table-card">
+                <h5><i class="fas fa-history me-2"></i>Earnings History - @ViewBag.MonthName</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                                <th>Delivery Fee</th>
+                                <th>Tip</th>
+                                <th>Bonus/Incentive</th>
+                                <th>Deduction</th>
+                                <th>Total</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Any())
+                            {
+                                @foreach (var earning in Model)
+                                {
+                                    <tr>
+                                        <td>@earning.EarningDate.ToString("dd MMM yyyy")</td>
+                                        <td>
+                                            @if (earning.EarningType == "Delivery")
+                                            {
+                                                <span class="badge bg-primary">Delivery</span>
+                                            }
+                                            else if (earning.EarningType == "Bonus")
+                                            {
+                                                <span class="badge bg-warning">Bonus</span>
+                                            }
+                                            else if (earning.EarningType == "Incentive")
+                                            {
+                                                <span class="badge bg-info">Incentive</span>
+                                            }
+                                            else if (earning.EarningType == "Adjustment")
+                                            {
+                                                <span class="badge bg-danger">Adjustment</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">@earning.EarningType</span>
+                                            }
+                                        </td>
+                                        <td>@earning.Description</td>
+                                        <td>@(earning.DeliveryFee > 0 ? $"₹{earning.DeliveryFee:N0}" : "-")</td>
+                                        <td>@(earning.TipAmount > 0 ? $"₹{earning.TipAmount:N0}" : "-")</td>
+                                        <td>@(earning.Bonus + earning.Incentive > 0 ? $"₹{(earning.Bonus + earning.Incentive):N0}" : "-")</td>
+                                        <td>@(earning.Deduction > 0 ? $"-₹{earning.Deduction:N0}" : "-")</td>
+                                        <td class="@(earning.TotalEarning >= 0 ? "text-success" : "text-danger") fw-bold">
+                                            @(earning.TotalEarning >= 0 ? $"₹{earning.TotalEarning:N0}" : $"-₹{Math.Abs(earning.TotalEarning):N0}")
+                                        </td>
+                                        <td>
+                                            @if (earning.PaymentStatus == "Paid")
+                                            {
+                                                <span class="badge bg-success">Paid</span>
+                                            }
+                                            else if (earning.PaymentStatus == "Pending")
+                                            {
+                                                <span class="badge bg-warning">Pending</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-secondary">@earning.PaymentStatus</span>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="9" class="text-center py-4">
+                                        <i class="fas fa-info-circle me-2"></i>No earnings found for @ViewBag.MonthName
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .earnings-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .earnings-card .card-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: white;
+    }
+    
+    .earnings-card.total .card-icon {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+    }
+    
+    .earnings-card.lifetime .card-icon {
+        background: linear-gradient(135deg, #11998e, #38ef7d);
+    }
+    
+    .earnings-card.pending .card-icon {
+        background: linear-gradient(135deg, #f093fb, #f5576c);
+    }
+    
+    .earnings-card.tips .card-icon {
+        background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
+    
+    .earnings-card h3 {
+        margin: 0;
+        font-weight: 700;
+    }
+    
+    .earnings-card small {
+        color: #666;
+    }
+    
+    .breakdown-card, .month-selector-card, .earnings-table-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .breakdown-card h5, .month-selector-card h5, .earnings-table-card h5 {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 15px;
+    }
+    
+    .breakdown-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 15px;
+    }
+    
+    .breakdown-item {
+        text-align: center;
+        padding: 15px;
+        background: #f8f9fa;
+        border-radius: 10px;
+    }
+    
+    .breakdown-item .label {
+        display: block;
+        color: #666;
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+    }
+    
+    .breakdown-item .amount {
+        display: block;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+    
+    .table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+</style>
